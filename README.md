@@ -1,4 +1,81 @@
-<h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
+ExpNo 1 :Developing AI Agent with PEAS Description
+Name: Abinaya T
+Register Number: 21222406006
+AIM:
+
+To find the PEAS description for the given AI problem and develop an AI agent.
+
+
+Theory
+Medicine prescribing agent:
+Such this agent prescribes medicine for fever (greater than 98.5 degrees) which we consider here as unhealthy, by the user temperature input, and another environment is rooms in the hospital (two rooms). This agent has to consider two factors one is room location and an unhealthy patient in a random room, the agent has to move from one room to another to check and treat the unhealthy person. The performance of the agent is calculated by incrementing performance and each time after treating in one room again it has to check another room so that the movement causes the agent to reduce its performance. Hence, agents prescribe medicine to unhealthy.
+
+PEAS DESCRIPTION:
+Agent Type	Performance	Environment	Actuators	Sensors
+Medicine prescribing agent	Treating unhealthy, agent movement	Rooms, Patient	Medicine, Treatment	Location, Temperature of patient
+DESIGN STEPS
+STEP 1:Identifying the input:
+Temperature from patients, Location.
+
+STEP 2:Identifying the output:
+Prescribe medicine if the patient in a random has a fever.
+
+STEP 3:Developing the PEAS description:
+PEAS description is developed by the performance, environment, actuators, and sensors in an agent.
+
+STEP 4:Implementing the AI agent:
+Treat unhealthy patients in each room. And check for the unhealthy patients in random room
+
+STEP 5:
+Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented
+
+Step 1 & 2: Inputs and outputs handled in environment
+class HospitalEnvironment:
+    def __init__(self, rooms=3):
+        # Each room has a patient with random temperature
+        self.rooms = {f"Room{i+1}": random.randint(97, 103) for i in range(rooms)}
+        self.agent_location = "Room1"
+        self.performance = 0
+
+    def is_patient_sick(self):
+        return self.rooms[self.agent_location] >= 100  # fever if temp ≥ 100
+
+    def treat(self):
+        if self.is_patient_sick():
+            self.rooms[self.agent_location] = 98  # reset temperature (treated)
+            self.performance += 10
+        else:
+            self.performance -= 1  # unnecessary treatment
+
+    def move(self):
+        # move randomly to another room
+        self.agent_location = random.choice(list(self.rooms.keys()))
+        self.performance -= 1
+
+    def status(self):
+        return f"Location: {self.agent_location}, Rooms: {self.rooms}, Score: {self.performance}"
+Step 4: Agent
+class DoctorAgent:
+    def program(self, env):
+        if env.is_patient_sick():
+            return "TREAT"
+        else:
+            return "MOVE"
+Step 5: Run simulation
+env = HospitalEnvironment(rooms=3)
+agent = DoctorAgent()
+
+print("Initial:", env.status())
+for step in range(8):
+    action = agent.program(env)
+    if action == "TREAT":
+        env.treat()
+    else:
+        env.move()
+    print(f"Step {step+1}: Action={action} -> {env.status()}")
+print("\nFinal Score:", env.performance)
+Output
+EXP1AI OP<h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
 <h3>Name: NALINIPRIYA G </h3>
 <h3>Register Number/Staff Id: TSIT031</h3>
 
